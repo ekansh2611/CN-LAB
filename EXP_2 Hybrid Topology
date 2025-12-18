@@ -1,0 +1,190 @@
+--> close;
+
+--> clf;
+
+--> 
+
+--> //--------------------------------------------------------------------
+
+--> // 1. CREATE HYBRID TOPOLOGY (STAR + RING + BUS)
+
+--> //--------------------------------------------------------------------
+
+--> NameOfNetwork = 'Hybrid Topology';
+
+--> NumberOfNodes = 25;
+
+--> 
+
+--> // Star Topology (1–10)
+
+--> StarStart = [1 1 1 1 1 1 1 1 1];
+
+--> StarEnd   = [2 3 4 5 6 7 8 9 10];
+
+--> 
+
+--> // Ring Topology (11–18)
+
+--> RingStart = [11 12 13 14 15 16 17 18];
+
+--> RingEnd   = [12 13 14 15 16 17 18 11];
+
+--> 
+
+--> // Bus Topology (19–25)
+
+--> BusStart = [19 20 21 22 23 24];
+
+--> BusEnd   = [20 21 22 23 24 25];
+
+--> 
+
+--> // Hybrid Links
+
+--> HybridStart = [5 8 15];
+
+--> HybridEnd   = [11 19 22];
+
+--> 
+
+--> // Combine All Connections
+
+--> StartingNodesOfConnection = [StarStart RingStart BusStart HybridStart];
+
+--> EndingNodesOfConnection   = [StarEnd   RingEnd   BusEnd   HybridEnd];
+
+--> 
+
+--> // Node Coordinates
+
+--> XCoordinatesOfNodes = [
+  > 200 150 250 100 300 150 250 350 200 200 ...
+  > 500 550 600 650 700 650 600 550 ...
+  > 300 350 400 450 500 550 600
+  > ];
+
+--> 
+
+--> YCoordinatesOfNodes = [
+  > 500 600 600 500 500 400 400 500 350 650 ...
+  > 500 550 600 550 500 450 400 450 ...
+  > 300 300 300 300 300 300 300
+  > ];
+
+--> 
+
+--> // Create Graph
+
+--> [TopologyGraph] = NL_G_MakeGraph( ...
+  >     NameOfNetwork, NumberOfNodes, ...
+  >     StartingNodesOfConnection, EndingNodesOfConnection, ...
+  >     XCoordinatesOfNodes, YCoordinatesOfNodes);
+
+--> 
+
+--> // Display Topology
+
+--> WindowIndex = 1;
+
+--> NL_G_ShowGraph(TopologyGraph, WindowIndex);
+
+--> xtitle("Hybrid Network Topology","X-Nodes","Y-Nodes");
+
+--> 
+
+--> //--------------------------------------------------------------------
+
+--> // 2. COLOUR THE NODES (FORCED VISIBLE)
+
+--> //--------------------------------------------------------------------
+
+--> NodeColor = 30;         // HIGH colour code → visible
+
+--> BorderThickness = 12;
+
+--> NodeDiameter = 45;      // Large size → visible
+
+--> WindowIndex = 2;
+
+--> ListOfNodes = [1 5 10 12 15 18 20 25];
+
+--> 
+
+--> NL_G_HighlightNodes(TopologyGraph, ListOfNodes, ...
+  >     NodeColor, BorderThickness, NodeDiameter, WindowIndex);
+at line     8 of function NL_G_HighlightNodes ( C:\Users\dhano\AppData\Roaming\Scilab\SCILAB~1.0\atoms\x64\NARVAL\3.1\macros\NL_G_HighlightNodes.sci line 8 )
+
+Correct Syntax: [go,f]=NL_G_HighlightNodes(g,n,c,b,d,i): Expected 6 input and 2 output arguments
+--> 
+
+--> xtitle("Coloured Nodes","X-Nodes","Y-Nodes");
+
+--> 
+
+--> //--------------------------------------------------------------------
+
+--> // 3. COLOUR THE EDGES (FORCED VISIBLE)
+
+--> //--------------------------------------------------------------------
+
+--> EdgeColor = 25;         // HIGH colour code → visible
+
+--> EdgeWidth = 10;         // Thick edges
+
+--> WindowIndex = 3;
+
+--> ListOfEdges = [1 5 10 15 20];
+
+--> 
+
+--> NL_G_HighlightEdges(TopologyGraph, ListOfEdges, ...
+  >     EdgeColor, EdgeWidth, WindowIndex);
+at line     8 of function NL_G_HighlightEdges ( C:\Users\dhano\AppData\Roaming\Scilab\SCILAB~1.0\atoms\x64\NARVAL\3.1\macros\NL_G_HighlightEdges.sci line 8 )
+
+Correct Syntax: [g,f]=NL_G_HighlightEdges(g,e,c,w,i): Expected 5 input and 2 output arguments
+--> 
+
+--> xtitle("Coloured Edges","X-Nodes","Y-Nodes");
+
+--> 
+
+--> //--------------------------------------------------------------------
+
+--> // 4. DISPLAY NODE & EDGE NUMBERS
+
+--> //--------------------------------------------------------------------
+
+--> WindowIndex = 4;
+
+--> NL_G_ShowGraphNE(TopologyGraph, WindowIndex);
+
+--> xtitle("Node and Edge Numbers","X-Nodes","Y-Nodes");
+
+--> 
+
+--> //--------------------------------------------------------------------
+
+--> // 5. DISPLAY NUMBER OF NODES & EDGES
+
+--> //--------------------------------------------------------------------
+
+--> [ExtractedNode, ExtractedEdge] = NL_G_GraphSize(TopologyGraph);
+
+--> 
+
+--> disp("Total Number of Nodes:", ExtractedNode);
+
+   25.
+
+
+ Total Number of Nodes:
+
+
+--> disp("Total Number of Edges:", ExtractedEdge);
+
+   26.
+
+
+ Total Number of Edges:
+
