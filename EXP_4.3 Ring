@@ -1,0 +1,26 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    int nodes = 15;
+    vector<vector<int>> adj(nodes);
+
+    for (int i = 0; i < nodes; i++) {
+        adj[i].push_back((i + 1) % nodes);
+        adj[(i + 1) % nodes].push_back(i);
+    }
+
+    cout << "RING TOPOLOGY\n";
+    for (int i = 0; i < nodes; i++) {
+        cout << "Node " << i << " -> ";
+        for (int v : adj[i]) cout << v << " ";
+        cout << "\n";
+    }
+
+    cout << "\nNode Degrees:\n";
+    for (int i = 0; i < nodes; i++)
+        cout << "Node " << i << " : " << adj[i].size() << "\n";
+
+    return 0;
+}
