@@ -1,0 +1,19 @@
+from scapy.all import rdpcap, IP
+from collections import Counter
+
+packets = rdpcap("traffic_capture.pcap")
+src_ips = set()
+dst_ips = set()
+protocols = []
+
+for pkt in packets:
+    if pkt.haslayer(IP):
+        src_ips.add(pkt[IP].src)
+        dst_ips.add(pkt[IP].dst)
+        protocols.append(pkt[IP].proto)
+
+proto_count = Counter(protocols)
+
+print("Source IPs:", len(src_ips))
+print("Destination IPs:", len(dst_ips))
+print("Protocols:", len(proto_count))
