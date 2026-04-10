@@ -1,0 +1,30 @@
+clc; 
+clear all; 
+k = 1; 
+j = 1;  
+for n = 10:10:160;
+    b(k) = n; 
+    L = 1000;  
+    dmax = 100;  
+    g = NL_T_LocalityConnex(n, L, dmax); 
+    src = NL_F_RandInt1n(length(g.node_x));
+    ind = 1;
+    g.node_diam(src) = 40; 
+    g.node_border(src) = 10; 
+    g.node_color(src) = 5; 
+    f = NL_G_ShowGraphN(g, ind); 
+    for i = 1:5 
+        timer();  
+        [dist, pred] = NL_R_BellmanFord(g, src); 
+        A(i) = timer();  
+    end 
+    
+    c(j) = mean(A); 
+    disp(c(j), n, "Time of finding shortest path using Bellman-Ford",); 
+    j = j + 1; 
+    k = k + 1; 
+end 
+clf(); 
+plot(b, c, '--ro'); 
+xtitle('Time of Computation for Bellman-Ford Algorithm','Number of Nodes','Time',boxed = 
+%t);
