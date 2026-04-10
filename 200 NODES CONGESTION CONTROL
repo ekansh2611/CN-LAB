@@ -1,0 +1,48 @@
+clc; 
+clear; 
+clf(); 
+L = 1000; 
+dmax = 100; 
+g1 = NL_T_LocalityConnex(200,L,dmax); 
+NL_G_ShowGraphN(g1,1); 
+marc1 = NL_R_ARCIndexOfNodes(g1); 
+cmarc1 = NL_R_ARCCursor(marc1); 
+RTARC1 = NL_R_ARCRT(cmarc1); 
+s = 1; 
+RTARCO1 = NL_R_ARCRTInit(RTARC1,s); 
+[lc1 cc1] = size(cmarc1); 
+A1 = [cmarc1(:,1:$-1) zeros(lc1,2) cmarc1(:,$)]; 
+s1 = 10; 
+L1 = NL_R_ARCTrafficNode(A1,s1,g1); 
+Tmax = 100; 
+Tcong = Tmax/2; 
+T = 30*L1; 
+timer(); 
+[congarc,dircongarc] = NL_R_ARCCongestionDetect(T,Tcong,A1,g1); 
+for j=1:length(congarc) 
+A1 = NL_R_ARCCongestionLR(A1,congarc(j),0.1,dircongarc(j),1); 
+end 
+time200 = timer(); 
+g2 = NL_T_LocalityConnex(300,L,dmax); 
+NL_G_ShowGraphN(g2,2); 
+marc2 = NL_R_ARCIndexOfNodes(g2); 
+cmarc2 = NL_R_ARCCursor(marc2); 
+RTARC2 = NL_R_ARCRT(cmarc2); 
+RTARCO2 = NL_R_ARCRTInit(RTARC2,s); 
+[lc2 cc2] = size(cmarc2); 
+A2 = [cmarc2(:,1:$-1) zeros(lc2,2) cmarc2(:,$)]; 
+s2 = 10; 
+L2 = NL_R_ARCTrafficNode(A2,s2,g2); 
+T = 30*L2; 
+timer(); 
+[congarc2,dircongarc2] = NL_R_ARCCongestionDetect(T,Tcong,A2,g2); 
+for j=1:length(congarc2) 
+A2 = NL_R_ARCCongestionLR(A2,congarc2(j),0.1,dircongarc2(j),1); 
+end 
+time300 = timer(); 
+x = [200 300]; 
+y = [time200 time300]; 
+plot(x,y,'--mo'); 
+xtitle("ARC Congestion Control Time","Number of Nodes","Time (seconds)",boxed=%t); 
+disp(time200,"Time for 200 nodes:"); 
+disp(time300,"Time for 300 nodes:");
